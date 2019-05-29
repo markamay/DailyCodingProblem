@@ -8,7 +8,10 @@ A binary search tree is a tree with two children, left and right, and satisfies 
 
 */
 #include <iostream>
+#include <limits>
 using namespace std;
+
+const int INF = std::numeric_limits<int>::max();
 
 //Simple implement of a binary tree node
 class node {
@@ -24,27 +27,22 @@ class node {
     node * right;
 };
 
-//a binary search tree satisfies:
-//-the root is greater than its left child
-//-the root is smaller than its right child
-//-the left and right child are both valid binary search trees
-//
-//Therefore we can easily verify the first two requirements and then
-//recursively check the left and right child to see if they satisfy the 
-//requirements
-bool isBST (node * tree) {
+bool isBST_helper(node * tree, int low, int high) {
     //base case: an empty tree trivially satisfies the bst invarient
     if (tree == NULL)
         return true;
-    else if (tree->left != NULL && tree->left->data > tree->data)
-        return false;
-    else if (tree->right != NULL && tree->right->data < tree->data)
+    else if (tree->data < low || tree->data > high)
         return false;
     else
     {
-        return (isBST(tree->left) && isBST(tree->right));
+        return (isBST_helper(tree->left, low, tree->data) &&
+                isBST_helper(tree->right, tree->data, high));
     }
     
+}
+
+bool isBST (node * tree) {
+    return isBST_helper(tree, -INF, INF);
 }
 
 //test driver
