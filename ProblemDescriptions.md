@@ -1,6 +1,16 @@
 ## Problem Descriptions
 
-### Problem 112
+### [Problem 89](src/problem89.cc)
+
+This problem was asked by LinkedIn.
+
+Determine whether a tree is a valid binary search tree.
+
+A binary search tree is a tree with two children, left and right, and satisfies the constraint that the key in the left child must be less than or equal to the root and the key in the right child must be greater than or equal to the root.
+
+---
+
+### [Problem 112](src/problem112.cc)
 
 This problem was asked by Twitter.
 Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree. Assume that each node in the tree also has a pointer to its parent.
