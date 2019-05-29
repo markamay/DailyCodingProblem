@@ -1,5 +1,13 @@
 ## Problem Descriptions
 
+### [Problem 36](src/problem36.cc)
+
+This problem was asked by Dropbox.
+
+Given the root to a binary search tree, find the second largest node in the tree.
+
+---
+
 ### [Problem 89](src/problem89.cc)
 
 This problem was asked by LinkedIn.
