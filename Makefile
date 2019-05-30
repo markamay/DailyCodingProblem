@@ -9,7 +9,6 @@ PROG = a.out
 OUTFLAG = -o
 EXT = .cc
 SRC_DIR = src/
-KEYWORDS = help clean
 SOURCE = $(SRC_DIR)problem$(MAKECMDGOALS)$(EXT)
 ifeq ($(MAKECMDGOALS),clean)
 	GOAL=$(MAKECMDGOALS)_A
