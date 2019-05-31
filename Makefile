@@ -1,9 +1,9 @@
 # Makefile to compile the solutions for each Daily Coding Problem
 GCC = g++
 ifdef DEBUG
-	CFLAGS = -Wall -g
+	CFLAGS = -Wall -g -std=c++1z
 else
-	CFLAGS = -Wall
+	CFLAGS = -Wall -std=c++1z
 endif
 PROG = a.out
 OUTFLAG = -o
