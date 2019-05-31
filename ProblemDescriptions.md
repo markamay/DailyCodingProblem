@@ -120,7 +120,7 @@ Given the root to a binary search tree, find the second largest node in the tree
 
 ---
 
-### [Problem 37](src/problems37.cc)
+### [Problem 37](src/problem37.cc)
 
 This problem was asked by Google.
 
@@ -129,6 +129,18 @@ The power set of a set is the set of all its subsets. Write a function that, giv
 For example, given the set {1, 2, 3}, it should return {{}, {1}, {2}, {3}, {1, 2}, {1, 3}, {2, 3}, {1, 2, 3}}.
 
 You may also use a list or array to represent a set.
+
+---
+
+### [Problem 57](src/problem57.cc)
+
+This problem was asked by Amazon.
+
+Given a string s and an integer k, break up the string into multiple lines such that each line has a length of k or less. You must break it up so that words don't break across lines. Each line has to have the maximum possible amount of words. If there's no way to break the text up, then return null.
+
+You can assume that there are no spaces at the ends of the string and that there is exactly one space between each word.
+
+For example, given the string "the quick brown fox jumps over the lazy dog" and k = 10, you should return: ["the quick", "brown fox", "jumps over", "the lazy", "dog"]. No string in the list has a length of more than 10.
 
 ---
 
