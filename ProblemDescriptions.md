@@ -173,7 +173,16 @@ Follow-up: given a mutable string representation, can you perform this operation
 ### [Problem 114](src/problem114.cc)
 
 This problem was asked by Facebook.
-Given a string and a set of delimiters, reverse the words in the string while maintaining the relative order of the delimiters. For example, given "hello/world:here", return "here/world:hello"
+Given a string and a set of delimiters, reverse the words in the string while maintaining the relative order of the delimiters. 
+
+For example, given "hello/world:here", return "here/world:hello"
 Follow-up: Does your solution work for the following cases: "hello/world:here/", "hello//world:here"
+
+---
+
+### [Problem 115](src/problem115.cc)
+
+This problem was asked by Google.
+Given two non-empty binary trees s and t, check whether tree t has exactly the same structure and node values with a subtree of s. A subtree of s is a tree consists of a node in s and all of this node's descendants. The tree s could also be considered as a subtree of itself.
 
 ---
