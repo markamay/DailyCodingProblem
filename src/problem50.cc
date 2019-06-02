@@ -23,6 +23,7 @@
  */
 #include <iostream>
 #include <assert.h>
+#include <stack>
 #include <string>
 using namespace std;
 
@@ -105,7 +106,40 @@ class Node {
     operation op;
     bool isLeaf;
 };
+/**
+ * Uses depth first search implemented with a stack to output all the children
+ */ 
+ostream& operator<< (ostream& outs, Node * node) {
+    /**
+     * Each element in the stack is a pair containing the pointer to the node and
+     * its depth in the tree. (used to determine the number of indents)
+     */
+    typedef pair<Node*, size_t> nodeInfo;
+    stack<nodeInfo> nodeStack;
+    nodeInfo cur;
 
+    nodeStack.push(nodeInfo(node, 0));
+    while (!(nodeStack.empty())) {
+        cur = nodeStack.top();
+        nodeStack.pop();
+
+        for (size_t i = 0; i < cur.second; i++) {
+            outs << '\t';
+        }
+
+        if (cur.first == NULL) {
+            outs << "NULL" << endl;
+        }
+        else {
+            outs << cur.first->val << endl;
+
+            nodeStack.push(nodeInfo(cur.first->right, cur.second + 1));
+            nodeStack.push(nodeInfo(cur.first->left, cur.second + 1));
+        }
+    }
+
+    return outs;
+}
 //test driver
 int main() {
     typedef Node::operation op;
