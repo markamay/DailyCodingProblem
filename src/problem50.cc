@@ -26,6 +26,7 @@
 #include <string>
 using namespace std;
 
+//Base class for a node in our binary tree
 class ArithNode {
     public:
     virtual string data()  = 0;
