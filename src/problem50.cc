@@ -26,99 +26,101 @@
 #include <string>
 using namespace std;
 
-/**
- * @class Node 
- * 
- * Represents a Node in our binary tree represenation of a mathematical expression.
- * A node can either be a leaf, which should be an integer.
- * Or it can be a math operator (in which case it should have two leaves)
- * 
- */
-class Node {
+class ArithNode {
     public:
-    Node * left;
-    Node * right;
+    virtual string data()  = 0;
+    virtual string to_string() = 0;
+    virtual int evaluate() = 0;
+};
 
-    enum class operation { PLUS = '+', MINUS = '-', TIMES = '*', DIVIDE = '/'};
+class ArithOperationNode : public ArithNode {
+    public:
+    ArithNode * left;
+    ArithNode * right;
 
-    Node(int data, Node * setLeft = NULL, Node * setRight = NULL) {
-        isLeaf = true;
-        num = data;
-        left = setLeft;
-        right = setRight;
+    enum class Operation { PLUS = '+', MINUS = '-', TIMES = '*', DIVIDE = '/' };
+
+    ArithOperationNode(Operation initOp, ArithNode * initLeft = NULL, ArithNode * initRight = NULL) {
+        op = initOp;
+        left = initLeft;
+        right = initRight;
     }
 
-    Node(operation setOp, Node * setLeft = NULL, Node * setRight = NULL) {
-        isLeaf = false;
-        op = setOp;
-        left = setLeft;
-        right = setRight;
+    string to_string() {
+        return ("(" + left->to_string() + " " + data() + " " + right->to_string() + ")");
     }
 
-    int data() {
-        if (isLeaf)
-            return num;
-        else
-            return (static_cast<int>(op));
-    }
-
-    bool isValid() {
-        if (isLeaf)
-            return (left == NULL && right == NULL);
-        else if (left == NULL || right == NULL)
-            return false;
-        else
-            return (left->isValid() && right->isValid());
-    }
-
-    bool leaf() {
-        return isLeaf;
-    }
-
-    int evaluate_helper() {
-        if (isLeaf)
-            return num;
-        else {
-            switch (op) {
-                case operation::PLUS:
-                    return (left->evaluate_helper() + right->evaluate_helper());
-                case operation::MINUS:
-                    return (left->evaluate_helper() - right->evaluate_helper());
-                case operation::DIVIDE:
-                    return (left->evaluate_helper() / right->evaluate_helper());
-                case operation::TIMES:
-                    return (left->evaluate_helper() * right->evaluate_helper());
-                default:
-                    throw "THIS ISN'T HUMANLY POSSIBLE";
-            }
-        }
+    string data() {
+        //looks funky, but this returns a char array which can be used to
+        //create a string from one of the string's constructors
+        return {static_cast<char>(op)};
     }
 
     int evaluate() {
-        assert(isValid());
+        assert(left != NULL);
+        assert(right != NULL);
 
-        return (evaluate_helper());
+        switch (op) {
+            case Operation::PLUS:
+                return (left->evaluate() + right->evaluate());
+            case Operation::MINUS:
+                return (left->evaluate() - right->evaluate());
+            case Operation::DIVIDE:
+                return (left->evaluate() / right->evaluate()); 
+            case Operation::TIMES:
+                return (left->evaluate() * right->evaluate());
+        }
+
+        return -1; //not really gonna ever trigger
     }
 
     private:
-    int num;
-    operation op;
-    bool isLeaf;
+    Operation op;
 };
+
+class ArithIntegerNode : public ArithNode {
+    public:
+    ArithIntegerNode(int initVal) : val(initVal) { };
+
+    int evaluate() { return val; }
+
+    string to_string() {
+        return data();
+    }
+
+    string data() { return std::to_string(val); }
+
+    private:
+    int val;
+};
+
+ArithNode* Arith(int nodeValue) {
+    return (new ArithIntegerNode(nodeValue));
+}
+
+ArithNode* Arith(ArithOperationNode::Operation op, ArithNode* left, ArithNode* right) {
+    return (new ArithOperationNode(op, left, right));
+}
 
 //test driver
 int main() {
-    typedef Node::operation op;
-
-    Node * expr = new Node(op::PLUS,
-                    new Node(50),
-                    new Node(op::DIVIDE,
-                        new Node(20),
-                        new Node (4)
-                    ) 
-                );
+    typedef ArithOperationNode::Operation OP;
+    ArithNode* tree = Arith(OP::PLUS, 
+                        Arith(OP::TIMES,
+                            Arith(50),
+                            Arith(2)
+                            ),
+                        Arith(OP::MINUS,
+                            Arith(25),
+                            Arith(OP::DIVIDE,
+                                Arith(30),
+                                Arith(6)
+                                )
+                            )
+                        );
     
-    cout << "should be 55: " << expr->evaluate() << endl;
+    cout << "Should be 120: " << endl;
+    cout << tree->to_string() << " = " << tree->evaluate() << endl;
 
     return 0;
 }
